@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUIZ Masa Adven & Natal !</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #dc2626, #b91c1c, #059669);
+            overflow-x: hidden;
+            position: relative;
+        }
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            z-index: 20;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .church-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .snowflake {
+            position: absolute;
+            color: white;
+            opacity: 0.8;
+            font-size: 20px;
+            animation: fall 3s linear infinite;
+            z-index: 1;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .motivational-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1f2937;
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: bounceIn 0.8s ease-out;
+            display: none;
+        }
+        @keyframes santaDance {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-10px) rotate(5deg); }
+        }
+        .santa {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            opacity: 0.25;
+            font-size: 64px;
+            z-index: 1;
+            animation: santaDance 3s ease-in-out infinite;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        .candles {
+            position: absolute;
+            bottom: 80px;
+            left: 50px;
+            z-index: 1;
+        }
+        .candle {
+            font-size: 48px;
+            margin-right: 20px;
+            display: inline-block;
+            animation: flicker 1.5s infinite alternate;
+        }
+        .candle:nth-child(1) { color: #dc2626; animation-delay: 0s; }
+        .candle:nth-child(2) { color: #7c2d12; animation-delay: 0.3s; }
+        .candle:nth-child(3) { color: #8b5cf6; animation-delay: 0.6s; }
+        .candle:nth-child(4) { color: #fbbf24; animation-delay: 0.9s; }
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateZ(0);
+        }
+        .text-center { text-align: center; }
+        .text-white { color: white; }
+        .text-yellow-300 { color: #fde047; }
+        .text-xl { font-size: 24px; font-weight: bold; }
+        .text-lg { font-size: 18px; }
+        .text-sm { font-size: 14px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-8 { margin-bottom: 32px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-6 { margin-top: 24px; }
+        .mt-8 { margin-top: 32px; }
+        .font-bold { font-weight: bold; }
+        .font-medium { font-weight: 500; }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            color: #1f2937;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #f59e0b, #d97706);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .btn-babak {
+            background: linear-gradient(to right, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+        .btn-babak:hover:not(.btn-disabled) {
+            background: linear-gradient(to right, #7c3aed, #6d28d9);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
+        }
+        .btn-success {
+            background: linear-gradient(to right, #10b981, #059669);
+            color: white;
+        }
+        .btn-success:hover {
+            background: linear-gradient(to right, #059669, #047857);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+        .btn-disabled {
+            background: rgba(128, 128, 128, 0.5) !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+        .input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 16px;
+        }
+        .input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        .input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+        .grid {
+            display: grid;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        @media (min-width: 768px) {
+            .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #fbbf24, #f59e0b);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .answer-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: left;
+            font-weight: 500;
+            margin-bottom: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        .answer-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .answer-btn:disabled {
+            cursor: not-allowed;
+        }
+        .answer-correct {
+            background: #10b981 !important;
+            color: white !important;
+        }
+        .answer-wrong {
+            background: #ef4444 !important;
+            color: white !important;
+        }
+        .answer-disabled {
+            background: rgba(255, 255, 255, 0.2) !important;
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        .badge {
+            background: #8b5cf6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .score-badge {
+            background: #fbbf24;
+            color: #1f2937;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-2 { gap: 8px; }
+        .hidden { display: none; }
+        .trophy {
+            width: 96px;
+            height: 96px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: #1f2937;
+            font-size: 48px;
+        }
+        .home-icon { margin-right: 8px; }
+        .essay-input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+        }
+        .essay-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        .essay-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="https://i.imgur.com/eMrVC1m.jpeg" alt="Logo GKSBS Palmerah" class="church-logo">
+    </div>
+    <div class="santa">🎅</div>
+    <div class="candles">
+        <span class="candle">🕯️</span>
+        <span class="candle">🕯️</span>
+        <span class="candle">🕯️</span>
+        <span class="candle">🕯️</span>
+    </div>
+    <div id="snowflakes"></div>
+    <div class="motivational-text" id="motivational-text"></div>
+    <div class="container">
+        <div id="welcome-screen" class="card">
+            <div class="text-center mb-8">
+                <div style="background: #dc2626; width: 96px; height: 96px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                    <span style="font-size: 48px;">🎄</span>
+                </div>
+                <h1 class="text-xl text-white mb-2">QUIZ Adven & Natal!</h1>
+                <p class="text-white">Komisi PWG GKSBS Palmerah Jambi</p>
+                <p class="text-yellow-300 text-sm mt-2">Menantang dan Penuh Berkat! 🎅</p>
+            </div>
+            <div class="mb-6">
+                <label class="block text-white font-medium mb-2">Masukkan Nama Kamu:</label>
+                <input type="text" id="user-name" class="input" placeholder="Nama Lengkap...">
+            </div>
+            <button id="start-btn" class="btn btn-primary">
+                Mulai Petualangan Rohani! ✨
+            </button>
+            <div class="mt-8 text-center">
+                <p class="text-white text-sm">
+                    🎁 <strong>Ada hadiah Natal menarik untuk Total Score dan waktu terbaik (share ke group resmi GKSBS Palmerah untuk penilaiannya)</strong> 🎁
+                </p>
+            </div>
+        </div>
+        <div id="levels-screen" class="card hidden">
+            <div class="text-center mb-8">
+                <h1 class="text-xl text-white mb-2">Pilih Babak Petualangan!</h1>
+                <p class="text-white" id="levels-greeting">Halo, Nama! Siap tantangan rohani?</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <button class="btn-babak" data-babak="babak1" id="babak1-btn">
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 9999px; margin-bottom: 12px;">
+                        <i class="fas fa-calendar" style="color: #fca5a5; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Babak 1</h3>
+                    <p class="text-sm text-white">Adven 1 & 2</p>
+                </button>
+                <button class="btn-babak btn-disabled" data-babak="babak2" id="babak2-btn" disabled>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 9999px; margin-bottom: 12px;">
+                        <i class="fas fa-fire" style="color: #fda4af; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Babak 2</h3>
+                    <p class="text-sm text-white">Adven 3 & 4</p>
+                </button>
+                <button class="btn-babak btn-disabled" data-babak="babak3" id="babak3-btn" disabled>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 9999px; margin-bottom: 12px;">
+                        <i class="fas fa-star" style="color: #fde047; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Babak 3</h3>
+                    <p class="text-sm text-white">Natal & Sukacita</p>
+                </button>
+                <button class="btn-babak btn-disabled" data-babak="babak4" id="babak4-btn" disabled>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 9999px; margin-bottom: 12px;">
+                        <i class="fas fa-book-bible" style="color: #93c5fd; font-size: 24px;"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Babak 4</h3>
+                    <p class="text-sm text-white">Ayat Natal</p>
+                </button>
+            </div>
+            <button id="back-to-welcome" class="btn btn-secondary">
+                <i class="fas fa-home home-icon"></i>
+                Kembali ke Menu Utama
+            </button>
+            <div class="mt-6 text-center">
+                <p class="text-white text-sm">
+                    🎁 <strong>Ada hadiah Natal menarik untuk Total Score dan waktu terbaik (share ke group untuk penilaiannya)</strong> 🎁
+                </p>
+            </div>
+        </div>
+        <div id="game-screen" class="card hidden">
+            <div class="text-center mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="badge" id="current-babak">Babak 1: Adven 1 & 2</span>
+                    <span class="score-badge">Skor: <span id="current-score">0</span>/10</span>
+                </div>
+                <h2 class="text-lg text-white mb-2">
+                    Pertanyaan <span id="current-question">1</span> dari 10
+                </h2>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 10%;"></div>
+                </div>
+            </div>
+            <div class="bg-white/20 rounded-2xl p-6 mb-6">
+                <p class="text-white text-lg font-medium text-center" id="question-text">
+                    Apa warna lilin pertama di mahkota Adven yang melambangkan pengharapan?
+                </p>
+            </div>
+            <div id="answers-container" class="mb-6"></div>
+            <div id="essay-container" class="mb-6 hidden">
+                <textarea id="essay-answer" class="essay-input" placeholder="Tuliskan jawabanmu di sini..."></textarea>
+                <button id="submit-essay-btn" class="btn btn-primary mt-4">
+                    Submit Jawaban
+                </button>
+            </div>
+            <div id="result-feedback" class="text-center mb-6 hidden">
+                <div id="feedback-message" class="inline-flex items-center px-4 py-2 rounded-full mb-4">
+                    ✅ Benar!
+                </div>
+                <p class="text-white/80" id="correct-answer-text">Jawaban yang benar: Ungu</p>
+            </div>
+            <button id="next-btn" class="btn btn-primary hidden">
+                Pertanyaan Berikutnya
+            </button>
+            <button id="back-to-levels" class="btn btn-secondary mt-4">
+                <i class="fas fa-home home-icon"></i>
+                Kembali ke Menu Babak
+            </button>
+            <div class="mt-6 text-center">
+                <p class="text-white text-sm">
+                    🎁 <strong>Ada hadiah Natal menarik untuk Total Score dan waktu terbaik (share ke group untuk penilaiannya)</strong> 🎁
+                </p>
+            </div>
+        </div>
+        <div id="result-screen" class="card hidden text-center">
+            <div class="trophy">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h1 class="text-xl text-white mb-2">HASIL AKHIR!</h1>
+            <p class="text-white mb-4" id="result-babak">Babak Adven 1 & 2</p>
+            <div style="background: rgba(255,255,255,0.2); border-radius: 20px; padding: 24px; margin-bottom: 24px;">
+                <p class="text-white text-lg mb-2">Hai, <span id="result-name">Nama</span>!</p>
+                <p class="text-4xl font-bold" style="color: #fbbf24; margin-bottom: 8px;">
+                    <span id="final-score">0</span><span class="text-white">/10</span>
+                </p>
+                <p class="text-white text-lg" id="result-comment">KAMU JENIUS LEVEL NABI! 🏆</p>
+            </div>
+            <div class="space-y-4">
+                <button id="share-btn" class="btn btn-success hidden">
+                    <i class="fab fa-whatsapp"></i>
+                    Share Hasil ke Group WA!
+                </button>
+                <button id="play-again" class="btn btn-primary">
+                    Main Babak Lain!
+                </button>
+                <button id="back-to-main" class="btn btn-secondary">
+                    <i class="fas fa-home home-icon"></i>
+                    Menu Utama
+                </button>
+            </div>
+            <div class="mt-6">
+                <p class="text-white text-sm">
+                    🎁 <strong>Ada hadiah Natal menarik untuk Total Score dan waktu terbaik (share ke group untuk penilaiannya)</strong> 🎁
+                </p>
+            </div>
+            <p class="text-white text-sm mt-4" style="opacity: 0.6;">
+                Dikembangkan oleh Komisi PWG GKSBS Palmerah Jambi ✝️🎄
+            </p>
+        </div>
+        <div id="final-result-screen" class="card hidden text-center">
+            <div class="trophy">
+                <i class="fas fa-crown"></i>
+            </div>
+            <h1 class="text-xl text-white mb-2">SELAMAT! PERJALANAN ROHANI SELESAI! 🎉</h1>
+            <div style="background: rgba(255,255,255,0.2); border-radius: 20px; padding: 24px; margin-bottom: 24px;">
+                <p class="text-white text-lg mb-4">Hai, <span id="final-result-name">Nama</span>!</p>
+                <div class="mb-4">
+                    <p class="text-white text-lg mb-2">📊 <strong>Hasil Total:</strong></p>
+                    <p class="text-2xl font-bold" style="color: #fbbf24;">
+                        <span id="total-score">0</span><span class="text-white">/40</span>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-white text-lg mb-2">⏱️ <strong>Total Waktu:</strong></p>
+                    <p class="text-xl text-white" id="total-time">0 menit 0 detik</p>
+                </div>
+                <p class="text-white text-lg" id="final-comment">LUAR BIASA! KAMU MASTER ALKITAB! 🏆</p>
+            </div>
+            <div class="space-y-4">
+                <button id="final-share-btn" class="btn btn-success">
+                    <i class="fab fa-whatsapp"></i>
+                    Share ke Group WA!
+                </button>
+                <button id="final-play-again" class="btn btn-primary">
+                    Main Lagi dari Awal!
+                </button>
+                <button id="final-back-to-main" class="btn btn-secondary">
+                    <i class="fas fa-home home-icon"></i>
+                    Menu Utama
+                </button>
+            </div>
+            <div class="mt-6">
+                <p class="text-white text-sm">
+                    🎁 <strong>Ada hadiah Natal menarik untuk Total Score dan waktu terbaik (share ke group untuk penilaiannya)</strong> 🎁
+                </p>
+            </div>
+            <p class="text-white text-sm mt-4" style="opacity: 0.6;">
+                Dikembangkan oleh Komisi PWG GKSBS Palmerah Jambi ✝️🎄
+            </p>
+        </div>
+    </div>
+    <script>
+        // === PENCEGAHAN NAMA GANDA ===
+        const completedUsers = JSON.parse(localStorage.getItem('gksbs_adven_completed_users') || '[]');
+        function isUserCompleted(name) {
+            return completedUsers.includes(name.trim().toLowerCase());
+        }
+        function markUserAsCompleted(name) {
+            const normalized = name.trim().toLowerCase();
+            if (!completedUsers.includes(normalized)) {
+                completedUsers.push(normalized);
+                localStorage.setItem('gksbs_adven_completed_users', JSON.stringify(completedUsers));
+            }
+        }
+
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            for (let i = 0; i < 50; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = '❄';
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.animationDelay = Math.random() * 5 + 's';
+                flake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                flake.style.fontSize = (Math.random() * 12 + 10) + 'px';
+                container.appendChild(flake);
+            }
+        }
+        const motivationalMessages = [
+            "AYO KAMU BISA! 💪", "SEMANGAT! KAMU PASTI BISA! ✨", "MANTAP! TERUS SEMANGAT! 🎯",
+            "KAMU JAGO BANGET! 💯", "LUAR BIASA! MAJU TERUS! 🏆", "YESSS! KAMU KEREN! 🌟",
+            "GO KIL! JAWAB LAGI! 🔥", "HEBAT! JANGAN MENYERAH! 💪", "WOW! OTAKMU CERAH! 💡",
+            "KAMU JUARA! TERUS MAJU! 🎉"
+        ];
+        function showMotivationalText() {
+            const el = document.getElementById('motivational-text');
+            el.textContent = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 2000);
+        }
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        const originalQuestions = {
+            babak1: [
+                { question: "Apa warna lilin pertama di mahkota Adven yang melambangkan pengharapan?", answer: "Ungu", options: ["Ungu", "Merah", "Hijau", "Emas"] },
+                { question: "Siapa nabi yang menubuatkan kedatangan Mesias dalam masa Adven?", answer: "Yesaya", options: ["Yesaya", "Yeremia", "Ezekiel", "Daniel"] },
+                { question: "Apa arti kata 'Adven' dalam bahasa Latin?", answer: "Kedatangan", options: ["Kedatangan", "Perayaan", "Persiapan", "Hadiah"] },
+                { question: "Berapa minggu masa Adven dirayakan?", answer: "4 minggu", options: ["4 minggu", "2 minggu", "6 minggu", "8 minggu"] },
+                { question: "Lilin mana yang berwarna merah muda di mahkota Adven?", answer: "Lilin ketiga", options: ["Lilin ketiga", "Lilin pertama", "Lilin kedua", "Lilin keempat"] },
+                { question: "Apa yang dilambangkan oleh lilin merah muda di minggu ketiga Adven?", answer: "Sukacita", options: ["Sukacita", "Damai", "Kasih", "Pengharapan"] },
+                { question: "Apa warna liturgi yang digunakan selama masa Adven?", answer: "Ungu", options: ["Ungu", "Putih", "Merah", "Hijau"] },
+                { question: "Siapa yang menyiapkan jalan bagi Tuhan menurut nubuatan masa Adven?", answer: "Yohanes Pembaptis", options: ["Yohanes Pembaptis", "Elia", "Musa", "Daud"] },
+                { question: "Apa simbol utama masa Adven selain mahkota Adven?", answer: "Kalender Adven", options: ["Kalender Adven", "Pohon Natal", "Kaus kaki", "Rusa"] },
+                { question: "Minggu Adven pertama menandai awal dari tahun liturgi Gereja. Tahun liturgi dimulai dengan huruf?", answer: "A", options: ["A", "B", "C", "D"] }
+            ],
+            babak2: [
+                { question: "Apa yang dilambangkan oleh lilin keempat dalam mahkota Adven?", answer: "Kasih", options: ["Kasih", "Damai", "Sukacita", "Pengharapan"] },
+                { question: "Siapa yang mengunjungi Maria untuk memberitakan kabar sukacita?", answer: "Malaikat Gabriel", options: ["Malaikat Gabriel", "Malaikat Mikail", "Nabi Elia", "Raja Daud"] },
+                { question: "Apa nama nyanyian Maria setelah menerima kabar dari malaikat?", answer: "Magnificat", options: ["Magnificat", "Gloria", "Sanctus", "Agnus Dei"] },
+                { question: "Siapa yang berkata 'Aku ini hamba Tuhan' saat menerima kabar sukacita?", answer: "Maria", options: ["Maria", "Elisabet", "Hanna", "Debora"] },
+                { question: "Apa yang dilakukan Zakharia ketika ia tidak percaya pada malaikat?", answer: "Menjadi bisu", options: ["Menjadi bisu", "Menjadi buta", "Jatuh sakit", "Lari ketakutan"] },
+                { question: "Siapa yang akan lahir dari keluarga Daud menurut nubuatan masa Adven?", answer: "Yesus Kristus", options: ["Yesus Kristus", "Yohanes Pembaptis", "Musa", "Elia"] },
+                { question: "Apa arti 'Emmanuel' yang disebut dalam nubuatan Yesaya?", answer: "Allah menyertai kita", options: ["Allah menyertai kita", "Anak yang ajaib", "Raja damai", "Tuhan yang perkasa"] },
+                { question: "Siapa yang berkata 'Sebab bagi kita telah lahir seorang anak' dalam nubuatan?", answer: "Nabi Yesaya", options: ["Nabi Yesaya", "Nabi Yeremia", "Nabi Daniel", "Nabi Amos"] },
+                { question: "Apa yang dipersiapkan umat selama masa Adven?", answer: "Kedatangan Kristus", options: ["Kedatangan Kristus", "Pesta Natal", "Tahun Baru", "Musim dingin"] },
+                { question: "Minggu Adven keempat fokus pada kisah siapa?", answer: "Maria dan Yusuf", options: ["Maria dan Yusuf", "Daud dan Batsyeba", "Abraham dan Sara", "Yakub dan Rahel"] }
+            ],
+            babak3: [
+                { question: "Di kota mana Yesus dilahirkan?", answer: "Betlehem", options: ["Betlehem", "Yerusalem", "Nazaret", "Kapernaum"] },
+                { question: "Siapa yang pertama kali mendengar kabar kelahiran Yesus?", answer: "Gembala", options: ["Gembala", "Orang Majus", "Raja Herodes", "Imam-imam"] },
+                { question: "Apa yang menjadi tanda kelahiran Yesus bagi gembala?", answer: "Bayi dibungkus lampin, berbaring di palungan", options: ["Bayi dibungkus lampin, berbaring di palungan", "Bintang terang di langit", "Malaikat menyanyi", "Gempa bumi"] },
+                { question: "Berapa jumlah orang Majus yang datang memberi hadiah?", answer: "3 orang", options: ["3 orang", "12 orang", "7 orang", "Tidak disebutkan jumlahnya"] },
+                { question: "Apa hadiah pertama yang diberikan orang Majus kepada Yesus?", answer: "Emas", options: ["Emas", "Kemenyan", "Mur", "Perak"] },
+                { question: "Apa arti hadiah mur yang diberikan kepada Yesus?", answer: "Kematian-Nya yang akan datang", options: ["Kematian-Nya yang akan datang", "Kekayaan-Nya", "Kebangkitan-Nya", "Kemuliaan-Nya"] },
+                { question: "Siapa yang marah besar ketika mendengar tentang kelahiran Raja orang Yahudi?", answer: "Raja Herodes", options: ["Raja Herodes", "Pontius Pilatus", "Kaisar Roma", "Imam Besar"] },
+                { question: "Apa yang menyebabkan Yusuf dan Maria pergi ke Betlehem?", answer: "Sensus yang diperintahkan Kaisar Agustus", options: ["Sensus yang diperintahkan Kaisar Agustus", "Mencari pekerjaan", "Mengunjungi keluarga", "Menghindari musuh"] },
+                { question: "Apa yang dilakukan malaikat ketika mengabarkan kelahiran Yesus kepada gembala?", answer: "Memuji Allah dan berkata 'Damai sejahtera di bumi'", options: ["Memuji Allah dan berkata 'Damai sejahtera di bumi'", "Menyanyikan lagu Natal", "Memberikan hadiah", "Menari sukacita"] },
+                { question: "Apa makna utama perayaan Natal bagi umat Kristen?", answer: "Kelahiran Yesus Kristus, Juruselamat dunia", options: ["Kelahiran Yesus Kristus, Juruselamat dunia", "Awal tahun baru", "Musim liburan", "Pertukaran hadiah"] }
+            ],
+            babak4: [
+                { question: "Tuliskan ayat Alkitab yang menyatakan 'Sebab Allah begitu mengasihi dunia ini...'", answer: "Yohanes 3:16", type: "essay" },
+                { question: "Ayat mana yang mengatakan 'Damai sejahtera di bumi di antara manusia yang berkenan kepada-Nya'?", answer: "Lukas 2:14", type: "essay" },
+                { question: "Tuliskan ayat yang menyatakan 'Sebab bagi kita telah lahir seorang Juruselamat, yaitu Kristus, Tuhan'!", answer: "Lukas 2:11", type: "essay" },
+                { question: "Ayat Alkitab mana yang mengatakan 'Allah menyertai kita' dalam nubuatan tentang kelahiran Yesus?", answer: "Yesaya 7:14", type: "essay" },
+                { question: "Tuliskan ayat yang menyatakan 'Anak yang ajaib, yang dinamakan Allah yang Perkasa'!", answer: "Yesaya 9:6", type: "essay" },
+                { question: "Ayat mana yang mengatakan 'Kemuliaan bagi Allah di tempat yang mahatinggi'?", answer: "Lukas 2:14", type: "essay" },
+                { question: "Tuliskan ayat yang menyatakan 'Ia akan disebut Imanuel' yang berarti 'Allah menyertai kita'!", answer: "Matius 1:23", type: "essay" },
+                { question: "Ayat Alkitab mana yang mengatakan 'Kasih karunia Allah telah nyata kepada semua orang'?", answer: "Titus 2:11", type: "essay" },
+                { question: "Tuliskan ayat yang menyatakan 'Firman itu telah menjadi manusia'!", answer: "Yohanes 1:14", type: "essay" },
+                { question: "Ayat mana yang mengatakan 'Hari ini telah lahir bagimu Juruselamat'?", answer: "Lukas 2:11", type: "essay" }
+            ]
+        };
+
+        const finalComments = [
+            "LUAR BIASA! KAMU MASTER ALKITAB, Calon PENDETA! 🏆",
+            "WOW! TOTAL MASTER ADVEN, NATAL & AYAT SUCI, Bisa dicalonkan PENATUA! 🎯",
+            "KEREN ABIS! PEMAHAMANMU TINGKAT NABI, siap Jadi DIAKEN! 💡",
+            "MANTAP! KAMU LAYAK DAPAT HADIAH UTAMA! 🎁",
+            "AMAZING! OTAKMU SECERAH CAHAYA FIRMAN TUHAN! ✨"
+        ];
+        const babakNames = {
+            babak1: 'Babak Adven 1 & 2',
+            babak2: 'Babak Adven 3 & 4',
+            babak3: 'Babak Natal & Sukacita',
+            babak4: 'Babak Ayat-ayat Natal'
+        };
+        let gameState = {
+            userName: '',
+            currentBabak: 'babak1',
+            currentQuestion: 0,
+            score: 0,
+            showResult: false,
+            babak1Completed: false,
+            babak2Completed: false,
+            babak3Completed: false,
+            babak4Completed: false,
+            babak1Score: 0,
+            babak2Score: 0,
+            babak3Score: 0,
+            babak4Score: 0,
+            babak1Time: 0,
+            babak2Time: 0,
+            babak3Time: 0,
+            babak4Time: 0,
+            startTime: null,
+            endTime: null
+        };
+        const screens = {
+            welcome: document.getElementById('welcome-screen'),
+            levels: document.getElementById('levels-screen'),
+            game: document.getElementById('game-screen'),
+            result: document.getElementById('result-screen'),
+            finalResult: document.getElementById('final-result-screen')
+        };
+        function showScreen(name) {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            screens[name].classList.remove('hidden');
+        }
+        function updateBabakButtons() {
+            const btn2 = document.getElementById('babak2-btn');
+            const btn3 = document.getElementById('babak3-btn');
+            const btn4 = document.getElementById('babak4-btn');
+            if (gameState.babak1Completed) {
+                btn2.disabled = false;
+                btn2.classList.remove('btn-disabled');
+            } else {
+                btn2.disabled = true;
+                btn2.classList.add('btn-disabled');
+            }
+            if (gameState.babak2Completed) {
+                btn3.disabled = false;
+                btn3.classList.remove('btn-disabled');
+            } else {
+                btn3.disabled = true;
+                btn3.classList.add('btn-disabled');
+            }
+            if (gameState.babak3Completed) {
+                btn4.disabled = false;
+                btn4.classList.remove('btn-disabled');
+            } else {
+                btn4.disabled = true;
+                btn4.classList.add('btn-disabled');
+            }
+        }
+        function formatTime(ms) {
+            if (!ms) return "0 menit 0 detik";
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${minutes} menit ${seconds} detik`;
+        }
+        function checkEssayAnswer(user, correct) {
+            const u = user.trim().toLowerCase();
+            const c = correct.toLowerCase();
+            if (u === c) return true;
+            if (u.includes(c)) return true;
+            const vars = {
+                'yohanes 3:16': ['yoh 3:16', 'yohanes 3 ayat 16'],
+                'lukas 2:14': ['luk 2:14', 'lukas 2 ayat 14'],
+                'lukas 2:11': ['luk 2:11', 'lukas 2 ayat 11'],
+                'yesaya 7:14': ['yes 7:14', 'yesaya 7 ayat 14'],
+                'yesaya 9:6': ['yes 9:6', 'yesaya 9 ayat 6'],
+                'matius 1:23': ['mat 1:23', 'matius 1 ayat 23'],
+                'titus 2:11': ['tit 2:11', 'titus 2 ayat 11'],
+                'yohanes 1:14': ['yoh 1:14', 'yohanes 1 ayat 14']
+            };
+            if (vars[c]) return vars[c].some(v => u.includes(v.toLowerCase()));
+            return false;
+        }
+        function initGame() {
+            createSnowflakes();
+            document.getElementById('start-btn').onclick = () => {
+                const name = document.getElementById('user-name').value.trim();
+                if (!name) return alert('Masukkan nama dulu ya!');
+                if (isUserCompleted(name)) {
+                    return alert('Nama ini sudah pernah digunakan dan hasilnya telah di-share.\nSetiap peserta hanya boleh mengikuti kuis ini satu kali.');
+                }
+                gameState.userName = name;
+                document.getElementById('levels-greeting').textContent = `Halo, ${name}! Siap tantangan rohani?`;
+                showScreen('levels');
+                updateBabakButtons();
+            };
+            const babakButtons = ['babak1', 'babak2', 'babak3', 'babak4'];
+            babakButtons.forEach(babak => {
+                const btn = document.getElementById(`${babak}-btn`);
+                if (btn) {
+                    btn.onclick = () => {
+                        const idx = babakButtons.indexOf(babak);
+                        const isUnlocked = (idx === 0) || gameState[`${babakButtons[idx - 1]}Completed`];
+                        if (isUnlocked) {
+                            startGame(babak);
+                        }
+                    };
+                }
+            });
+            document.getElementById('back-to-welcome').onclick = () => showScreen('welcome');
+            document.getElementById('back-to-levels').onclick = () => { 
+                showScreen('levels'); 
+                updateBabakButtons(); 
+            };
+            document.getElementById('play-again').onclick = () => { 
+                showScreen('levels'); 
+                updateBabakButtons(); 
+            };
+            document.getElementById('back-to-main').onclick = () => showScreen('welcome');
+            document.getElementById('final-play-again').onclick = () => {
+                gameState.babak1Completed = false;
+                gameState.babak2Completed = false;
+                gameState.babak3Completed = false;
+                gameState.babak4Completed = false;
+                showScreen('levels');
+                updateBabakButtons();
+            };
+            document.getElementById('submit-essay-btn').onclick = handleEssayAnswer;
+            document.getElementById('next-btn').onclick = nextQuestion;
+            // ✅ PERBAIKAN UTAMA: KEDUA TOMBOL SHARE BERFUNGSI!
+            document.getElementById('final-share-btn').onclick = shareFinalResult;
+            document.getElementById('share-btn').onclick = shareFinalResult; // <-- INI YANG KURANG DI FILE ASLI
+        }
+        function startGame(babak) {
+            gameState.currentBabak = babak;
+            gameState.currentQuestion = 0;
+            gameState.score = 0;
+            gameState.showResult = false;
+            gameState.startTime = Date.now();
+
+            // 🔁 Acak soal untuk babak 1-3
+            if (babak !== 'babak4') {
+                questions[babak] = shuffleArray([...originalQuestions[babak]]);
+            } else {
+                questions[babak] = originalQuestions[babak];
+            }
+
+            updateGameScreen();
+            showScreen('game');
+        }
+        let questions = JSON.parse(JSON.stringify(originalQuestions));
+
+        function updateGameScreen() {
+            const q = questions[gameState.currentBabak][gameState.currentQuestion];
+            document.getElementById('current-babak').textContent = babakNames[gameState.currentBabak];
+            document.getElementById('current-score').textContent = gameState.score;
+            document.getElementById('current-question').textContent = gameState.currentQuestion + 1;
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('progress-bar').style.width = `${((gameState.currentQuestion + 1) / 10) * 100}%`;
+            if (gameState.currentBabak === 'babak4') {
+                document.getElementById('answers-container').classList.add('hidden');
+                document.getElementById('essay-container').classList.remove('hidden');
+                document.getElementById('essay-answer').value = '';
+                document.getElementById('submit-essay-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('answers-container').classList.remove('hidden');
+                document.getElementById('essay-container').classList.add('hidden');
+                const container = document.getElementById('answers-container');
+                container.innerHTML = '';
+                shuffleArray([...q.options]).forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'answer-btn';
+                    btn.textContent = opt;
+                    btn.onclick = () => handleAnswer(opt);
+                    container.appendChild(btn);
+                });
+            }
+            document.getElementById('result-feedback').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+        function handleAnswer(answer) {
+            if (gameState.showResult) return;
+            showMotivationalText();
+            const q = questions[gameState.currentBabak][gameState.currentQuestion];
+            const correct = answer === q.answer;
+            if (correct) gameState.score++;
+            gameState.showResult = true;
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === q.answer) btn.className = 'answer-btn answer-correct';
+                else if (btn.textContent === answer && !correct) btn.className = 'answer-btn answer-wrong';
+                else btn.className = 'answer-btn answer-disabled';
+            });
+            showFeedback(correct, q.answer);
+            document.getElementById('next-btn').textContent = gameState.currentQuestion < 9 ? 'Pertanyaan Berikutnya' : 'Lihat Hasil Akhir!';
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+        function handleEssayAnswer() {
+            const ans = document.getElementById('essay-answer').value;
+            if (!ans.trim()) return alert('Silakan isi jawaban!');
+            const q = questions[gameState.currentBabak][gameState.currentQuestion];
+            const correct = checkEssayAnswer(ans, q.answer);
+            if (correct) gameState.score++;
+            gameState.showResult = true;
+            showFeedback(correct, q.answer);
+            document.getElementById('submit-essay-btn').classList.add('hidden');
+            document.getElementById('next-btn').textContent = gameState.currentQuestion < 9 ? 'Pertanyaan Berikutnya' : 'Lihat Hasil Akhir!';
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+        function showFeedback(isCorrect, correctAns) {
+            const msg = document.getElementById('feedback-message');
+            const txt = document.getElementById('correct-answer-text');
+            if (isCorrect) {
+                msg.className = 'inline-flex items-center px-4 py-2 rounded-full mb-4';
+                msg.style.background = '#10b981';
+                msg.style.color = 'white';
+                msg.innerHTML = '✅ Benar!';
+                txt.style.display = 'none';
+            } else {
+                msg.className = 'inline-flex items-center px-4 py-2 rounded-full mb-4';
+                msg.style.background = '#ef4444';
+                msg.style.color = 'white';
+                msg.innerHTML = '❌ Kurang tepat!';
+                txt.style.display = 'block';
+                txt.textContent = `Jawaban yang benar: ${correctAns}`;
+            }
+            document.getElementById('result-feedback').classList.remove('hidden');
+        }
+        function nextQuestion() {
+            if (gameState.currentQuestion < 9) {
+                gameState.currentQuestion++;
+                gameState.showResult = false;
+                updateGameScreen();
+            } else {
+                gameState.endTime = Date.now();
+                const duration = gameState.endTime - gameState.startTime;
+                if (gameState.currentBabak === 'babak1') {
+                    gameState.babak1Score = gameState.score;
+                    gameState.babak1Time = duration;
+                    gameState.babak1Completed = true;
+                } else if (gameState.currentBabak === 'babak2') {
+                    gameState.babak2Score = gameState.score;
+                    gameState.babak2Time = duration;
+                    gameState.babak2Completed = true;
+                } else if (gameState.currentBabak === 'babak3') {
+                    gameState.babak3Score = gameState.score;
+                    gameState.babak3Time = duration;
+                    gameState.babak3Completed = true;
+                } else if (gameState.currentBabak === 'babak4') {
+                    gameState.babak4Score = gameState.score;
+                    gameState.babak4Time = duration;
+                    gameState.babak4Completed = true;
+                }
+                showResultScreen();
+            }
+        }
+        function showResultScreen() {
+            document.getElementById('result-name').textContent = gameState.userName;
+            document.getElementById('final-score').textContent = gameState.score;
+            document.getElementById('result-babak').textContent = babakNames[gameState.currentBabak];
+            let comment;
+            if (gameState.score === 10) comment = "KAMU JENIUS LEVEL NABI! 🏆";
+            else if (gameState.score >= 8) comment = "WOW! KAMU GOKIL ROHANI! 🎯";
+            else if (gameState.score >= 6) comment = "KEREN! PEMAHAMANMU MANTAP! 💡";
+            else if (gameState.score >= 4) comment = "LUMAYAN! TERUS BELAJAR YA! 📈";
+            else comment = "JANGAN MENYERAH! COBA LAGI YA! 💪";
+            document.getElementById('result-comment').textContent = comment;
+            const shareBtn = document.getElementById('share-btn');
+            if (gameState.currentBabak === 'babak4') {
+                shareBtn.classList.remove('hidden');
+            } else {
+                shareBtn.classList.add('hidden');
+            }
+            showScreen('result');
+            updateBabakButtons();
+        }
+        function shareFinalResult() {
+            // 🔒 Blokir nama setelah share
+            markUserAsCompleted(gameState.userName);
+
+            const totalScore = gameState.babak1Score + gameState.babak2Score + gameState.babak3Score + gameState.babak4Score;
+            const totalTime = gameState.babak1Time + gameState.babak2Time + gameState.babak3Time + gameState.babak4Time;
+            const msg = `🎮 TEBAK-TEBAKAN MASA ADVEN & NATAL ! 🎄\n` +
+                `Hai Jemaat GKSBS Palmerah jambi, Sdr. ${gameState.userName} baru aja menyelesaikan SEMUA babak tebak-tebakan rohani dari GKSBS Palmerah Jambi (Komisi PWG)!\n\n` +
+                `📊 TOTAL HASIL AKHIR:\n` +
+                `Score: ${totalScore}/40\n` +
+                `Waktu: ${formatTime(totalTime)}\n\n` +
+                `${finalComments[Math.floor(Math.random() * finalComments.length)]}\n\n` +
+                `Tunggu permainan selanjutnya! Seru dan edukatif banget! ✝️✨\n` +
+                `🎁 Ada hadiah Natal menarik untuk Pemenang Total Score dan waktu terbaik! (HADIAH Dibagikan dlm Perayaan Natal 2025, hub. komisi PWG)!`;
+
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
